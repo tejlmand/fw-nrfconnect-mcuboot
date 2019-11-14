@@ -83,15 +83,10 @@ if(CONFIG_BOOTLOADER_MCUBOOT)
     endif()
   endif()
 
-  zephyr_add_executable(mcuboot require_build)
+  zephyr_add_external_image(mcuboot ${MCUBOOT_BASE}/boot/zephyr)
 
-  if (${require_build})
-    add_subdirectory(${MCUBOOT_BASE}/boot/zephyr ${CMAKE_BINARY_DIR}/mcuboot)
-  endif() # ${require_build}
-
-  get_property(app_binary_dir GLOBAL PROPERTY PROJECT_BINARY_DIR)
   set(merged_hex_file
-    ${app_binary_dir}/mcuboot_primary_app.hex)
+    ${PROJECT_BINARY_DIR}/mcuboot_primary_app.hex)
   set(merged_hex_file_depends
     mcuboot_primary_app_hex$<SEMICOLON>${PROJECT_BINARY_DIR}/mcuboot_primary_app.hex)
   set(sign_merged
